@@ -12,10 +12,10 @@ class UserController extends AbstractController
     private $age;
     private $city;
 
-    #[Route('/profil', name: 'app_profil')]
-    public function profile(): Response
+    #[Route('/profil/{name}', name: 'app_profil')]
+    public function profile(string $name): Response
     {
-        $this->name = "Loick LAURENT";
+        $this->name = $name;
         $this->age = 28;
         $this->city = "Toulouse";
         return $this->render('user/profile.html.twig', [
