@@ -7,12 +7,14 @@
 <div class="example-wrapper">
 
     <h2>Liste des livres</h2>
+    {% if books %}
     {% for book in books %}
 
         <p>{{ book.title }} - {{ book.author }}</p>
 
-    {% else %}
-        <p>Aucun livre disponible</p>
     {% endfor %}
+    {% else %}
+    <p>Aucun livre disponible</p>
+    {% endif %}
 </div>
 {% endblock %}
