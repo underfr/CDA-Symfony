@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BookController!{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+
+    <h2>Liste des livres</h2>
+    {% for book in books %}
+
+        <p>{{ book.title }} - {{ book.author }}</p>
+
+    {% else %}
+        <p>Aucun livre disponible</p>
+    {% endfor %}
+</div>
+{% endblock %}
