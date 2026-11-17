@@ -26,14 +26,14 @@ class AppFixtures extends Fixture
         }
 
         $categories = [];
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $category = new Category();
             $category->setName($faker->unique()->word());
             $manager->persist($category);
             $categories[] = $category;
         }
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 60; $i++) {
             $book = new Book();
             $book->setTitle($faker->sentence());
             $book->setAuthor($faker->name());
