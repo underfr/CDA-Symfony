@@ -40,7 +40,9 @@ class AppFixtures extends Fixture
             $book->setPublishAt(\DateTimeImmutable::createFromMutable($faker->dateTime()));
             $book->setResume($faker->text());
             $book->setUser($faker->randomElement($users));
-            $book->addCategory($faker->randomElement($categories));
+            foreach ($faker->randomElements($categories, 5) as $category) {
+                $book->addCategory($category);
+            }
             $manager->persist($book);
         }
 
