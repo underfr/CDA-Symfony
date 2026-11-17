@@ -7,7 +7,7 @@
     {% for user in users %}
 
         <p>{{ user.firstname }} {{ user.lastname }} - {{ user.email }}</p>
-        <a href="/users/{{ user.id }}">Fiche détail</a>
+        <a href="{{ path('app_user', {id: user.id }) }}">Détail</a>
 
     {% endfor %}
 {% endblock %}
