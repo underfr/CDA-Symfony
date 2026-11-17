@@ -41,7 +41,7 @@ class UserController extends AbstractController
     public function getOneUser(int $id): Response
     {
         $user = $this->userService->getUserById($id);
-        return $this->render('user/show.html.twig', [
+        return $this->render('user/show_user_by_id.html.twig', [
             'user' => $user
         ]);
     }
