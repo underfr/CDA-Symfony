@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil!{% endblock %}
+
+{% block body %}
+
+    {% for user in users %}
+
+        <p>{{ user.firstname }} {{ user.lastname }} - {{ user.email }}</p>
+
+    {% endfor %}
+{% endblock %}
