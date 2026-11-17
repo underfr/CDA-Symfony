@@ -2,40 +2,34 @@
 
 namespace App\Controller;
 
+use App\Entity\Book;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Service\BookService;
 
 final class BookController extends AbstractController
 {
-    private $books = [
-    ['id' => 1, 'title' => 'Dune', 'author' => 'Frank Herbert'],
-    ['id' => 2, 'title' => '1984', 'author' => 'George Orwell'],
-    ['id' => 3, 'title' => 'Fondation', 'author' => 'Isaac Asimov'],
-    ];
-    #[Route('/livres', name: 'app_books')]
-    public function index(): Response
+    public function __construct(private BookService $bookService){
+
+    }
+
+    #[Route('/books', name: 'app_books')]
+    public function showAllBooks(): Response
     {
-
-
-        return $this->render('book/index.html.twig', [
-            'controller_name' => 'BookController',
-            'books' => $this->books,
+        $books = $this->bookService->getBooks();
+        return $this->render('book/show_all_book.html.twig', [
+            'books' => $books,
         ]);
     }
-    #[Route('/livres/{id}',
-        name: 'app_books_show',
-        requirements: ['id' => '\d+']
-    )]
-    public function show(int $id): Response
-    {
-        if ($book = $this->books[$id] ?? null) {
-            $book = $this->books[$id-1];
-            return $this->render('book/show.html.twig', [
-                'book' => $book
-            ]);
-        }
-    }
 
+    #[Route(path:'/books/{id}', name: 'app_book_show')]
+    public function showBookById(int $id): Response
+    {
+        $book = $this->bookService->getBookById($id);
+        return $this->render('book/show.html.twig', [
+            'book' => $book,
+        ]);
+    }
 
 }
