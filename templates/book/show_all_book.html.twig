@@ -1,23 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BookController!{% endblock %}
+{% block title %}Livres{% endblock %}
 
 {% block body %}
-
-    <div class="example-wrapper">
-
-        <h2>Liste des livres</h2>
-        {% if books %}
-            {% for book in books %}
-
-                <p>{{ book.title }} - {{ book.author }}</p>
-                <a href="{{ path('app_book_show', {id: book.id}) }}">
-                    Voir le détail
-                </a>
-
-            {% endfor %}
-        {% else %}
-            <p>Aucun livre disponible</p>
-        {% endif %}
+    <div class="mb-8 flex flex-col gap-1">
+        <h1 class="text-2xl font-semibold tracking-tight">Liste des livres</h1>
+        <p class="text-sm text-muted-foreground">
+            {{ books|length }} livre{{ books|length > 1 ? 's' }} dans la bibliothèque.
+        </p>
     </div>
+
+    {% if books %}
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {% for book in books %}
+                <twig:Card>
+                    <twig:Card:Header>
+                        <twig:Card:Title class="line-clamp-2">{{ book.title }}</twig:Card:Title>
+                        <twig:Card:Description>{{ book.author }}</twig:Card:Description>
+                    </twig:Card:Header>
+
+                    <twig:Card:Content class="flex flex-1 flex-col gap-3">
+                        <p class="line-clamp-3 text-muted-foreground">{{ book.resume }}</p>
+
+                        {% if book.categories is not empty %}
+                            <div class="mt-auto flex flex-wrap gap-1.5">
+                                {% for category in book.categories %}
+                                    <twig:Badge as="a" href="{{ path('category_show', {id: category.id}) }}" variant="secondary">
+                                        {{ category.name }}
+                                    </twig:Badge>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </twig:Card:Content>
+
+                    <twig:Card:Footer class="justify-between gap-2">
+                        <span class="text-xs text-muted-foreground">
+                            {{ book.publishAt ? 'Publié en ' ~ book.publishAt|date('Y') }}
+                        </span>
+                        <twig:Button as="a" href="{{ path('app_book_show', {id: book.id}) }}" variant="outline" size="sm">
+                            Voir le détail
+                        </twig:Button>
+                    </twig:Card:Footer>
+                </twig:Card>
+            {% endfor %}
+        </div>
+    {% else %}
+        <twig:Empty class="border">
+            <twig:Empty:Header>
+                <twig:Empty:Media variant="icon">
+                    <twig:ux:icon name="lucide:book-open" />
+                </twig:Empty:Media>
+                <twig:Empty:Title>Aucun livre disponible</twig:Empty:Title>
+                <twig:Empty:Description>La bibliothèque est vide pour le moment.</twig:Empty:Description>
+            </twig:Empty:Header>
+        </twig:Empty>
+    {% endif %}
 {% endblock %}

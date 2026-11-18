@@ -1,14 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des categories{% endblock %}
+{% block title %}Liste des catégories{% endblock %}
 
 {% block body %}
+    <div class="mb-8 flex flex-col gap-1">
+        <h1 class="text-2xl font-semibold tracking-tight">Catégories</h1>
+        <p class="text-sm text-muted-foreground">
+            {{ categories|length }} catégorie{{ categories|length > 1 ? 's' }} pour classer les livres.
+        </p>
+    </div>
 
-<div class="example-wrapper">
-    {% for category in categories %}
-
-        <p>{{ category.id }} - {{ category.name }}</p>
-
-    {% endfor %}
-</div>
+    {% if categories %}
+        <div class="overflow-hidden rounded-xl border">
+            <twig:Table>
+                <twig:Table:Header class="bg-muted/50">
+                    <twig:Table:Row>
+                        <twig:Table:Head class="w-20 ps-4">#</twig:Table:Head>
+                        <twig:Table:Head>Nom</twig:Table:Head>
+                        <twig:Table:Head class="pe-4 text-end">Action</twig:Table:Head>
+                    </twig:Table:Row>
+                </twig:Table:Header>
+                <twig:Table:Body>
+                    {% for category in categories %}
+                        <twig:Table:Row>
+                            <twig:Table:Cell class="ps-4 text-muted-foreground">{{ category.id }}</twig:Table:Cell>
+                            <twig:Table:Cell class="font-medium capitalize">{{ category.name }}</twig:Table:Cell>
+                            <twig:Table:Cell class="pe-4 text-end">
+                                <twig:Button as="a" href="{{ path('category_show', {id: category.id}) }}" variant="ghost" size="sm">
+                                    Voir
+                                    <twig:ux:icon name="lucide:arrow-right" data-icon="inline-end" />
+                                </twig:Button>
+                            </twig:Table:Cell>
+                        </twig:Table:Row>
+                    {% endfor %}
+                </twig:Table:Body>
+            </twig:Table>
+        </div>
+    {% else %}
+        <twig:Empty class="border">
+            <twig:Empty:Header>
+                <twig:Empty:Media variant="icon">
+                    <twig:ux:icon name="lucide:tags" />
+                </twig:Empty:Media>
+                <twig:Empty:Title>Aucune catégorie</twig:Empty:Title>
+                <twig:Empty:Description>Aucune catégorie n'a encore été créée.</twig:Empty:Description>
+            </twig:Empty:Header>
+        </twig:Empty>
+    {% endif %}
 {% endblock %}

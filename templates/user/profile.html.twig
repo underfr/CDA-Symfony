@@ -1,15 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil!{% endblock %}
+{% block title %}Profil de {{ name }}{% endblock %}
 
 {% block body %}
+    <div class="mb-8 flex flex-col gap-1">
+        <h1 class="text-2xl font-semibold tracking-tight">Profil utilisateur</h1>
+        <p class="text-sm text-muted-foreground">Bonjour {{ name }} !</p>
+    </div>
 
-    <h1>Profil utilisateur</h1>
-    <p>Bonjour {{ user }}</p>
-    <ul>
-        <li>Nom: {{ name }}</li>
-        <li>Age: {{ age }} ans</li>
-        <li>Ville: {{ city }}</li>
-    </ul>
+    <twig:Card class="max-w-md">
+        <twig:Card:Header class="border-b">
+            <div class="flex items-center gap-4">
+                <twig:Avatar size="lg">
+                    <twig:Avatar:Fallback>{{ name|first|upper }}</twig:Avatar:Fallback>
+                </twig:Avatar>
+                <div class="flex flex-col gap-0.5">
+                    <twig:Card:Title class="text-lg">{{ name }}</twig:Card:Title>
+                    <twig:Card:Description>Membre de la bibliothèque</twig:Card:Description>
+                </div>
+            </div>
+        </twig:Card:Header>
 
+        <twig:Card:Content>
+            <ul class="flex flex-col gap-3">
+                <li class="flex items-center gap-3">
+                    <twig:ux:icon name="lucide:user" class="size-4 text-muted-foreground" />
+                    <span class="text-muted-foreground">Nom</span>
+                    <span class="ms-auto font-medium">{{ name }}</span>
+                </li>
+                <li class="flex items-center gap-3">
+                    <twig:ux:icon name="lucide:cake" class="size-4 text-muted-foreground" />
+                    <span class="text-muted-foreground">Âge</span>
+                    <span class="ms-auto font-medium">{{ age }} ans</span>
+                </li>
+                <li class="flex items-center gap-3">
+                    <twig:ux:icon name="lucide:map-pin" class="size-4 text-muted-foreground" />
+                    <span class="text-muted-foreground">Ville</span>
+                    <span class="ms-auto"><twig:Badge variant="secondary">{{ city }}</twig:Badge></span>
+                </li>
+            </ul>
+        </twig:Card:Content>
+    </twig:Card>
 {% endblock %}

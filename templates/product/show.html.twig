@@ -1,10 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductController!{% endblock %}
+{% block title %}Produit {{ id }}{% endblock %}
 
 {% block body %}
+    <twig:Breadcrumb class="mb-6">
+        <twig:Breadcrumb:List>
+            <twig:Breadcrumb:Item>
+                <twig:Breadcrumb:Link href="{{ path('app_home') }}">Accueil</twig:Breadcrumb:Link>
+            </twig:Breadcrumb:Item>
+            <twig:Breadcrumb:Separator />
+            <twig:Breadcrumb:Item>
+                <twig:Breadcrumb:Page>Produit {{ id }}</twig:Breadcrumb:Page>
+            </twig:Breadcrumb:Item>
+        </twig:Breadcrumb:List>
+    </twig:Breadcrumb>
 
-<div class="example-wrapper">
-    <p>Affichage du produit {{ id }}</p>
-</div>
+    <twig:Card class="max-w-md">
+        <twig:Card:Header>
+            <div class="mb-2 flex size-9 items-center justify-center rounded-lg bg-muted">
+                <twig:ux:icon name="lucide:package" class="size-4" />
+            </div>
+            <twig:Card:Title class="text-xl">Produit n°{{ id }}</twig:Card:Title>
+            <twig:Card:Description>Affichage du produit {{ id }}</twig:Card:Description>
+            <twig:Card:Action>
+                <twig:Badge variant="outline">ID {{ id }}</twig:Badge>
+            </twig:Card:Action>
+        </twig:Card:Header>
+
+        <twig:Card:Footer class="justify-between gap-2">
+            {% if id > 0 %}
+                <twig:Button as="a" href="{{ path('app_product_show', {id: id - 1}) }}" variant="outline" size="sm">
+                    <twig:ux:icon name="lucide:arrow-left" data-icon="inline-start" />
+                    Précédent
+                </twig:Button>
+            {% else %}
+                <span></span>
+            {% endif %}
+            <twig:Button as="a" href="{{ path('app_product_show', {id: id + 1}) }}" variant="outline" size="sm">
+                Suivant
+                <twig:ux:icon name="lucide:arrow-right" data-icon="inline-end" />
+            </twig:Button>
+        </twig:Card:Footer>
+    </twig:Card>
 {% endblock %}

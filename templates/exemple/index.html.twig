@@ -1,20 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ExempleController!{% endblock %}
+{% block title %}Hello {{ controller_name }}!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <twig:Card class="mx-auto max-w-2xl">
+        <twig:Card:Header class="border-b">
+            <twig:Card:Title class="text-xl">Hello {{ controller_name }}! ✅</twig:Card:Title>
+            <twig:Card:Description>Ce message vient de :</twig:Card:Description>
+        </twig:Card:Header>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/Users/under/Dev/Formation/CDA/Symfony/webapp/src/Controller/ExempleController.php</code></li>
-        <li>Your template at <code>/Users/under/Dev/Formation/CDA/Symfony/webapp/templates/exemple/index.html.twig</code></li>
-    </ul>
-</div>
+        <twig:Card:Content>
+            <ul class="flex flex-col gap-3">
+                <li class="flex flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:gap-3">
+                    <twig:Badge variant="secondary" class="w-24 justify-center">Contrôleur</twig:Badge>
+                    <code class="rounded-md bg-muted px-2 py-1 font-mono text-xs">src/Controller/ExempleController.php</code>
+                </li>
+                <li class="flex flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:gap-3">
+                    <twig:Badge variant="secondary" class="w-24 justify-center">Template</twig:Badge>
+                    <code class="rounded-md bg-muted px-2 py-1 font-mono text-xs">templates/exemple/index.html.twig</code>
+                </li>
+            </ul>
+        </twig:Card:Content>
+    </twig:Card>
 {% endblock %}

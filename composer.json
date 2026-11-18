@@ -38,11 +38,16 @@
         "symfony/string": "8.1.*",
         "symfony/translation": "8.1.*",
         "symfony/twig-bundle": "8.1.*",
+        "symfony/ux-icons": "^3.7",
         "symfony/ux-turbo": "^3.7",
+        "symfony/ux-twig-component": "^3.7",
         "symfony/validator": "8.1.*",
         "symfony/web-link": "8.1.*",
         "symfony/yaml": "8.1.*",
+        "symfonycasts/tailwind-bundle": "^1.0",
+        "tales-from-a-dev/twig-tailwind-extra": "^1.5",
         "twig/extra-bundle": "^2.12|^3.0",
+        "twig/html-extra": "^3.29",
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
@@ -53,6 +58,7 @@
         "symfony/debug-bundle": "8.1.*",
         "symfony/maker-bundle": "^1.0",
         "symfony/stopwatch": "8.1.*",
+        "symfony/ux-toolkit": "^3.7",
         "symfony/web-profiler-bundle": "8.1.*"
     },
     "config": {

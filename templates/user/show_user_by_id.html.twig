@@ -1,8 +1,80 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil!{% endblock %}
+{% block title %}{{ user ? user.firstname ~ ' ' ~ user.lastname : 'Utilisateur introuvable' }}{% endblock %}
 
 {% block body %}
+    <twig:Breadcrumb class="mb-6">
+        <twig:Breadcrumb:List>
+            <twig:Breadcrumb:Item>
+                <twig:Breadcrumb:Link href="{{ path('app_home') }}">Accueil</twig:Breadcrumb:Link>
+            </twig:Breadcrumb:Item>
+            <twig:Breadcrumb:Separator />
+            <twig:Breadcrumb:Item>
+                <twig:Breadcrumb:Link href="{{ path('app_users') }}">Utilisateurs</twig:Breadcrumb:Link>
+            </twig:Breadcrumb:Item>
+            <twig:Breadcrumb:Separator />
+            <twig:Breadcrumb:Item>
+                <twig:Breadcrumb:Page>{{ user ? user.firstname ~ ' ' ~ user.lastname : 'Introuvable' }}</twig:Breadcrumb:Page>
+            </twig:Breadcrumb:Item>
+        </twig:Breadcrumb:List>
+    </twig:Breadcrumb>
 
-        <p>{{ user.firstname }} {{ user.lastname }} - {{ user.email }}</p>
+    {% if user %}
+        <twig:Card class="max-w-2xl">
+            <twig:Card:Header class="border-b">
+                <div class="flex items-center gap-4">
+                    <twig:Avatar size="lg">
+                        <twig:Avatar:Fallback>{{ (user.firstname|first ~ user.lastname|first)|upper }}</twig:Avatar:Fallback>
+                    </twig:Avatar>
+                    <div class="flex flex-col gap-0.5">
+                        <twig:Card:Title class="text-lg">{{ user.firstname }} {{ user.lastname }}</twig:Card:Title>
+                        <twig:Card:Description>{{ user.email }}</twig:Card:Description>
+                    </div>
+                </div>
+            </twig:Card:Header>
+
+            <twig:Card:Content>
+                <dl class="grid gap-4 sm:grid-cols-2">
+                    <div>
+                        <dt class="text-xs text-muted-foreground">Prénom</dt>
+                        <dd class="mt-1 font-medium">{{ user.firstname }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-xs text-muted-foreground">Nom</dt>
+                        <dd class="mt-1 font-medium">{{ user.lastname }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-xs text-muted-foreground">Email</dt>
+                        <dd class="mt-1 font-medium">
+                            <a href="mailto:{{ user.email }}" class="underline-offset-4 hover:underline">{{ user.email }}</a>
+                        </dd>
+                    </div>
+                    <div>
+                        <dt class="text-xs text-muted-foreground">Identifiant</dt>
+                        <dd class="mt-1"><twig:Badge variant="outline">#{{ user.id }}</twig:Badge></dd>
+                    </div>
+                </dl>
+            </twig:Card:Content>
+
+            <twig:Card:Footer>
+                <twig:Button as="a" href="{{ path('app_users') }}" variant="outline" size="sm">
+                    <twig:ux:icon name="lucide:arrow-left" data-icon="inline-start" />
+                    Retour aux utilisateurs
+                </twig:Button>
+            </twig:Card:Footer>
+        </twig:Card>
+    {% else %}
+        <twig:Empty class="border">
+            <twig:Empty:Header>
+                <twig:Empty:Media variant="icon">
+                    <twig:ux:icon name="lucide:search-x" />
+                </twig:Empty:Media>
+                <twig:Empty:Title>Utilisateur introuvable</twig:Empty:Title>
+                <twig:Empty:Description>Cet utilisateur n'existe pas ou a été supprimé.</twig:Empty:Description>
+            </twig:Empty:Header>
+            <twig:Empty:Content>
+                <twig:Button as="a" href="{{ path('app_users') }}" variant="outline" size="sm">Retour aux utilisateurs</twig:Button>
+            </twig:Empty:Content>
+        </twig:Empty>
+    {% endif %}
 {% endblock %}

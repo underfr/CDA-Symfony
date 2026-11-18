@@ -1,10 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil!{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
+    <section class="flex flex-col items-start gap-4 py-4 sm:py-8">
+        <twig:Badge variant="secondary">Symfony + shadcn</twig:Badge>
+        <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">Bienvenue sur mon site symfony !</h1>
+        <p class="max-w-2xl leading-relaxed text-muted-foreground">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur facilis fugiat magnam maxime placeat quam quas quibusdam rerum sequi unde? Assumenda consequuntur doloribus ex libero magnam nihil qui similique ullam!
+        </p>
+        <div class="flex flex-wrap gap-2">
+            <twig:Button as="a" href="{{ path('app_books') }}" size="lg">
+                <twig:ux:icon name="lucide:book-open" data-icon="inline-start" />
+                Voir les livres
+            </twig:Button>
+            <twig:Button as="a" href="{{ path('category_index') }}" variant="outline" size="lg">
+                Parcourir les catégories
+            </twig:Button>
+        </div>
+    </section>
 
-<h1>Bienvenue sur mon site symfony !</h1>
+    <twig:Separator class="my-8" />
 
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur facilis fugiat magnam maxime placeat quam quas quibusdam rerum sequi unde? Assumenda consequuntur doloribus ex libero magnam nihil qui similique ullam!</p>
+    <section class="grid gap-4 sm:grid-cols-3">
+        {% for shortcut in [
+            {icon: 'lucide:book-open', title: 'Livres', description: 'Tous les livres de la bibliothèque, avec leur résumé et leurs catégories.', route: 'app_books'},
+            {icon: 'lucide:tags', title: 'Catégories', description: 'Les catégories utilisées pour classer les livres.', route: 'category_index'},
+            {icon: 'lucide:users', title: 'Utilisateurs', description: 'Les membres inscrits et le détail de leur compte.', route: 'app_users'},
+        ] %}
+            <twig:Card>
+                <twig:Card:Header>
+                    <div class="mb-2 flex size-9 items-center justify-center rounded-lg bg-muted">
+                        <twig:ux:icon :name="shortcut.icon" class="size-4" />
+                    </div>
+                    <twig:Card:Title>{{ shortcut.title }}</twig:Card:Title>
+                    <twig:Card:Description>{{ shortcut.description }}</twig:Card:Description>
+                </twig:Card:Header>
+                <twig:Card:Footer class="mt-auto">
+                    <twig:Button as="a" href="{{ path(shortcut.route) }}" variant="ghost" size="sm" class="-ms-2">
+                        Ouvrir
+                        <twig:ux:icon name="lucide:arrow-right" data-icon="inline-end" />
+                    </twig:Button>
+                </twig:Card:Footer>
+            </twig:Card>
+        {% endfor %}
+    </section>
 {% endblock %}

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         {% block stylesheets %}
@@ -18,7 +19,52 @@
         <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
         {% endif %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body class="flex min-h-screen flex-col antialiased">
+        {# Route courante, pour mettre en surbrillance le lien actif du menu #}
+        {% set current_route = app.request.attributes.get('_route') %}
+        {% set nav_items = [
+            {label: 'Accueil', route: 'app_home', active: ['app_home']},
+            {label: 'Livres', route: 'app_books', active: ['app_books', 'app_book_show']},
+            {label: 'Catégories', route: 'category_index', active: ['category_index', 'category_show']},
+            {label: 'Utilisateurs', route: 'app_users', active: ['app_users', 'app_user_show', 'app_profil']},
+            {label: 'Contact', route: 'app_contact', active: ['app_contact']},
+        ] %}
+
+        <header class="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
+            <div class="mx-auto flex h-14 w-full max-w-5xl items-center gap-4 px-4">
+                <a href="{{ path('app_home') }}" class="flex shrink-0 items-center gap-2 font-semibold">
+                    <span class="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
+                        <twig:ux:icon name="lucide:book-open" class="size-4" />
+                    </span>
+                    <span class="hidden sm:inline">Bibliothèque</span>
+                </a>
+
+                <div class="ms-auto min-w-0 overflow-x-auto [scrollbar-width:none]">
+                    <twig:NavigationMenu ariaLabel="Navigation principale" class="w-max">
+                        <twig:NavigationMenu:List>
+                            {% for item in nav_items %}
+                                <twig:NavigationMenu:Item>
+                                    <twig:NavigationMenu:Link
+                                        href="{{ path(item.route) }}"
+                                        :aria-current="current_route in item.active ? 'page' : null"
+                                        class="aria-[current=page]:bg-muted"
+                                    >{{ item.label }}</twig:NavigationMenu:Link>
+                                </twig:NavigationMenu:Item>
+                            {% endfor %}
+                        </twig:NavigationMenu:List>
+                    </twig:NavigationMenu>
+                </div>
+            </div>
+        </header>
+
+        <main class="mx-auto w-full max-w-5xl flex-1 px-4 py-8 sm:py-10">
+            {% block body %}{% endblock %}
+        </main>
+
+        <footer class="border-t">
+            <div class="mx-auto w-full max-w-5xl px-4 py-6 text-sm text-muted-foreground">
+                Projet Symfony — Formation CDA
+            </div>
+        </footer>
     </body>
 </html>

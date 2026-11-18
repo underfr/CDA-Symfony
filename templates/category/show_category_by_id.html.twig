@@ -1,12 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Categorie{% endblock %}
+{% block title %}{{ category ? category.name|capitalize : 'Catégorie introuvable' }}{% endblock %}
 
 {% block body %}
+    <twig:Breadcrumb class="mb-6">
+        <twig:Breadcrumb:List>
+            <twig:Breadcrumb:Item>
+                <twig:Breadcrumb:Link href="{{ path('app_home') }}">Accueil</twig:Breadcrumb:Link>
+            </twig:Breadcrumb:Item>
+            <twig:Breadcrumb:Separator />
+            <twig:Breadcrumb:Item>
+                <twig:Breadcrumb:Link href="{{ path('category_index') }}">Catégories</twig:Breadcrumb:Link>
+            </twig:Breadcrumb:Item>
+            <twig:Breadcrumb:Separator />
+            <twig:Breadcrumb:Item>
+                <twig:Breadcrumb:Page class="capitalize">{{ category ? category.name : 'Introuvable' }}</twig:Breadcrumb:Page>
+            </twig:Breadcrumb:Item>
+        </twig:Breadcrumb:List>
+    </twig:Breadcrumb>
 
-    <div class="example-wrapper">
+    {% if category %}
+        <twig:Card class="max-w-xl">
+            <twig:Card:Header>
+                <div class="mb-2 flex size-9 items-center justify-center rounded-lg bg-muted">
+                    <twig:ux:icon name="lucide:tag" class="size-4" />
+                </div>
+                <twig:Card:Title class="text-xl capitalize">{{ category.name }}</twig:Card:Title>
+                <twig:Card:Description>Catégorie n°{{ category.id }}</twig:Card:Description>
+                <twig:Card:Action>
+                    <twig:Badge variant="outline">#{{ category.id }}</twig:Badge>
+                </twig:Card:Action>
+            </twig:Card:Header>
 
-        <p>{{ category.id }} - {{ category.name }}</p>
-
-    </div>
+            <twig:Card:Footer class="gap-2">
+                <twig:Button as="a" href="{{ path('category_index') }}" variant="outline" size="sm">
+                    <twig:ux:icon name="lucide:arrow-left" data-icon="inline-start" />
+                    Toutes les catégories
+                </twig:Button>
+                <twig:Button as="a" href="{{ path('app_books') }}" variant="ghost" size="sm">
+                    Voir les livres
+                </twig:Button>
+            </twig:Card:Footer>
+        </twig:Card>
+    {% else %}
+        <twig:Empty class="border">
+            <twig:Empty:Header>
+                <twig:Empty:Media variant="icon">
+                    <twig:ux:icon name="lucide:search-x" />
+                </twig:Empty:Media>
+                <twig:Empty:Title>Catégorie introuvable</twig:Empty:Title>
+                <twig:Empty:Description>Cette catégorie n'existe pas ou a été supprimée.</twig:Empty:Description>
+            </twig:Empty:Header>
+            <twig:Empty:Content>
+                <twig:Button as="a" href="{{ path('category_index') }}" variant="outline" size="sm">Toutes les catégories</twig:Button>
+            </twig:Empty:Content>
+        </twig:Empty>
+    {% endif %}
 {% endblock %}

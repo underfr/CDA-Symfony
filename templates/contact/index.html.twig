@@ -1,12 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ContactController!{% endblock %}
+{% block title %}Contact{% endblock %}
 
 {% block body %}
+    <div class="mb-8 flex flex-col gap-1">
+        <h1 class="text-2xl font-semibold tracking-tight">Contact</h1>
+        <p class="text-sm text-muted-foreground">Une question ? Voici comment nous joindre.</p>
+    </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-    <p>Email: contact@mail.com</p>
-    <p>Tel: 0612345678</p>
-</div>
+    <div class="grid gap-4 sm:grid-cols-2">
+        <twig:Card>
+            <twig:Card:Header>
+                <div class="mb-2 flex size-9 items-center justify-center rounded-lg bg-muted">
+                    <twig:ux:icon name="lucide:mail" class="size-4" />
+                </div>
+                <twig:Card:Title>Email</twig:Card:Title>
+                <twig:Card:Description>Écris-nous à tout moment.</twig:Card:Description>
+            </twig:Card:Header>
+            <twig:Card:Footer class="mt-auto">
+                <twig:Button as="a" href="mailto:contact@mail.com" variant="outline" size="sm">
+                    contact@mail.com
+                </twig:Button>
+            </twig:Card:Footer>
+        </twig:Card>
+
+        <twig:Card>
+            <twig:Card:Header>
+                <div class="mb-2 flex size-9 items-center justify-center rounded-lg bg-muted">
+                    <twig:ux:icon name="lucide:phone" class="size-4" />
+                </div>
+                <twig:Card:Title>Téléphone</twig:Card:Title>
+                <twig:Card:Description>Appelle-nous directement.</twig:Card:Description>
+            </twig:Card:Header>
+            <twig:Card:Footer class="mt-auto">
+                <twig:Button as="a" href="tel:+33612345678" variant="outline" size="sm">
+                    06 12 34 56 78
+                </twig:Button>
+            </twig:Card:Footer>
+        </twig:Card>
+    </div>
 {% endblock %}

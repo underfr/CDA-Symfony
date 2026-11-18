@@ -1,13 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil!{% endblock %}
+{% block title %}Utilisateurs{% endblock %}
 
 {% block body %}
+    <div class="mb-8 flex flex-col gap-1">
+        <h1 class="text-2xl font-semibold tracking-tight">Utilisateurs</h1>
+        <p class="text-sm text-muted-foreground">
+            {{ users|length }} utilisateur{{ users|length > 1 ? 's' }} inscrit{{ users|length > 1 ? 's' }}.
+        </p>
+    </div>
 
-    {% for user in users %}
-
-        <p>{{ user.firstname }} {{ user.lastname }} - {{ user.email }}</p>
-        <a href="{{ path('app_user', {id: user.id }) }}">Détail</a>
-
-    {% endfor %}
+    {% if users %}
+        <div class="overflow-hidden rounded-xl border">
+            <twig:Table>
+                <twig:Table:Header class="bg-muted/50">
+                    <twig:Table:Row>
+                        <twig:Table:Head class="ps-4">Utilisateur</twig:Table:Head>
+                        <twig:Table:Head class="hidden sm:table-cell">Email</twig:Table:Head>
+                        <twig:Table:Head class="pe-4 text-end">Action</twig:Table:Head>
+                    </twig:Table:Row>
+                </twig:Table:Header>
+                <twig:Table:Body>
+                    {% for user in users %}
+                        <twig:Table:Row>
+                            <twig:Table:Cell class="ps-4">
+                                <div class="flex items-center gap-3">
+                                    <twig:Avatar>
+                                        <twig:Avatar:Fallback>{{ (user.firstname|first ~ user.lastname|first)|upper }}</twig:Avatar:Fallback>
+                                    </twig:Avatar>
+                                    <div class="flex flex-col">
+                                        <span class="font-medium">{{ user.firstname }} {{ user.lastname }}</span>
+                                        <span class="text-xs text-muted-foreground sm:hidden">{{ user.email }}</span>
+                                    </div>
+                                </div>
+                            </twig:Table:Cell>
+                            <twig:Table:Cell class="hidden text-muted-foreground sm:table-cell">{{ user.email }}</twig:Table:Cell>
+                            <twig:Table:Cell class="pe-4 text-end">
+                                <twig:Button as="a" href="{{ path('app_user_show', {id: user.id}) }}" variant="outline" size="sm">
+                                    Détail
+                                </twig:Button>
+                            </twig:Table:Cell>
+                        </twig:Table:Row>
+                    {% endfor %}
+                </twig:Table:Body>
+            </twig:Table>
+        </div>
+    {% else %}
+        <twig:Empty class="border">
+            <twig:Empty:Header>
+                <twig:Empty:Media variant="icon">
+                    <twig:ux:icon name="lucide:users" />
+                </twig:Empty:Media>
+                <twig:Empty:Title>Aucun utilisateur</twig:Empty:Title>
+                <twig:Empty:Description>Personne ne s'est encore inscrit.</twig:Empty:Description>
+            </twig:Empty:Header>
+        </twig:Empty>
+    {% endif %}
 {% endblock %}

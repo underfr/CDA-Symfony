@@ -1,16 +1,92 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BookController!{% endblock %}
+{% block title %}{{ book ? book.title : 'Livre introuvable' }}{% endblock %}
 
 {% block body %}
+    <twig:Breadcrumb class="mb-6">
+        <twig:Breadcrumb:List>
+            <twig:Breadcrumb:Item>
+                <twig:Breadcrumb:Link href="{{ path('app_home') }}">Accueil</twig:Breadcrumb:Link>
+            </twig:Breadcrumb:Item>
+            <twig:Breadcrumb:Separator />
+            <twig:Breadcrumb:Item>
+                <twig:Breadcrumb:Link href="{{ path('app_books') }}">Livres</twig:Breadcrumb:Link>
+            </twig:Breadcrumb:Item>
+            <twig:Breadcrumb:Separator />
+            <twig:Breadcrumb:Item>
+                <twig:Breadcrumb:Page class="line-clamp-1">{{ book ? book.title : 'Introuvable' }}</twig:Breadcrumb:Page>
+            </twig:Breadcrumb:Item>
+        </twig:Breadcrumb:List>
+    </twig:Breadcrumb>
 
-    <div class="example-wrapper">
+    {% if book %}
+        <twig:Card>
+            <twig:Card:Header class="border-b">
+                <twig:Card:Title class="text-xl">{{ book.title }}</twig:Card:Title>
+                <twig:Card:Description>par {{ book.author }}</twig:Card:Description>
+            </twig:Card:Header>
 
-        <h2>Liste des livres</h2>
-        {% if book %}
-                <p>{{ book.title }} - {{ book.author }}</p>
-        {% else %}
-            <p>Aucun livre disponible</p>
-        {% endif %}
-    </div>
+            <twig:Card:Content class="flex flex-col gap-6">
+                {% if book.categories is not empty %}
+                    <div class="flex flex-wrap gap-1.5">
+                        {% for category in book.categories %}
+                            <twig:Badge as="a" href="{{ path('category_show', {id: category.id}) }}" variant="secondary">
+                                {{ category.name }}
+                            </twig:Badge>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div>
+                    <h2 class="mb-2 text-sm font-medium">Résumé</h2>
+                    <p class="leading-relaxed text-muted-foreground">{{ book.resume ?: 'Pas de résumé pour ce livre.' }}</p>
+                </div>
+
+                <twig:Separator />
+
+                <dl class="grid gap-4 sm:grid-cols-3">
+                    <div>
+                        <dt class="text-xs text-muted-foreground">Auteur</dt>
+                        <dd class="mt-1 font-medium">{{ book.author }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-xs text-muted-foreground">Publié le</dt>
+                        <dd class="mt-1 font-medium">{{ book.publishAt ? book.publishAt|date('d/m/Y') : '—' }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-xs text-muted-foreground">Ajouté par</dt>
+                        <dd class="mt-1 font-medium">
+                            {% if book.user %}
+                                <a href="{{ path('app_user_show', {id: book.user.id}) }}" class="underline-offset-4 hover:underline">
+                                    {{ book.user.firstname }} {{ book.user.lastname }}
+                                </a>
+                            {% else %}
+                                —
+                            {% endif %}
+                        </dd>
+                    </div>
+                </dl>
+            </twig:Card:Content>
+
+            <twig:Card:Footer>
+                <twig:Button as="a" href="{{ path('app_books') }}" variant="outline" size="sm">
+                    <twig:ux:icon name="lucide:arrow-left" data-icon="inline-start" />
+                    Retour aux livres
+                </twig:Button>
+            </twig:Card:Footer>
+        </twig:Card>
+    {% else %}
+        <twig:Empty class="border">
+            <twig:Empty:Header>
+                <twig:Empty:Media variant="icon">
+                    <twig:ux:icon name="lucide:search-x" />
+                </twig:Empty:Media>
+                <twig:Empty:Title>Livre introuvable</twig:Empty:Title>
+                <twig:Empty:Description>Ce livre n'existe pas ou a été supprimé.</twig:Empty:Description>
+            </twig:Empty:Header>
+            <twig:Empty:Content>
+                <twig:Button as="a" href="{{ path('app_books') }}" variant="outline" size="sm">Retour aux livres</twig:Button>
+            </twig:Empty:Content>
+        </twig:Empty>
+    {% endif %}
 {% endblock %}
