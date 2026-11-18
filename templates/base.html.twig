@@ -20,15 +20,7 @@
         {% endif %}
     </head>
     <body class="flex min-h-screen flex-col antialiased">
-        {# Route courante, pour mettre en surbrillance le lien actif du menu #}
-        {% set current_route = app.request.attributes.get('_route') %}
-        {% set nav_items = [
-            {label: 'Accueil', route: 'app_home', active: ['app_home']},
-            {label: 'Livres', route: 'app_books', active: ['app_books', 'app_book_show']},
-            {label: 'Catégories', route: 'category_index', active: ['category_index', 'category_show']},
-            {label: 'Utilisateurs', route: 'app_users', active: ['app_users', 'app_user_show', 'app_profil']},
-            {label: 'Contact', route: 'app_contact', active: ['app_contact']},
-        ] %}
+
 
         <header class="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
             <div class="mx-auto flex h-14 w-full max-w-5xl items-center gap-4 px-4">
@@ -40,19 +32,7 @@
                 </a>
 
                 <div class="ms-auto min-w-0 overflow-x-auto [scrollbar-width:none]">
-                    <twig:NavigationMenu ariaLabel="Navigation principale" class="w-max">
-                        <twig:NavigationMenu:List>
-                            {% for item in nav_items %}
-                                <twig:NavigationMenu:Item>
-                                    <twig:NavigationMenu:Link
-                                        href="{{ path(item.route) }}"
-                                        :aria-current="current_route in item.active ? 'page' : null"
-                                        class="aria-[current=page]:bg-muted"
-                                    >{{ item.label }}</twig:NavigationMenu:Link>
-                                </twig:NavigationMenu:Item>
-                            {% endfor %}
-                        </twig:NavigationMenu:List>
-                    </twig:NavigationMenu>
+                    <twig:NavigationMenu:Menu/>
                 </div>
             </div>
         </header>

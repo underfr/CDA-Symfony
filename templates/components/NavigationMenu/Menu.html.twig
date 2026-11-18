@@ -1,0 +1,23 @@
+{# Route courante, pour mettre en surbrillance le lien actif du menu #}
+        {% set current_route = app.request.attributes.get('_route') %}
+        {% set nav_items = [
+            {label: 'Accueil', route: 'app_home', active: ['app_home']},
+            {label: 'Livres', route: 'app_books', active: ['app_books', 'app_book_show']},
+            {label: 'Catégories', route: 'category_index', active: ['category_index', 'category_show']},
+            {label: 'Utilisateurs', route: 'app_users', active: ['app_users', 'app_user_show', 'app_profil']},
+            {label: 'Contact', route: 'app_contact', active: ['app_contact']},
+        ] %}
+
+<twig:NavigationMenu ariaLabel="Navigation principale" class="w-max">
+    <twig:NavigationMenu:List>
+        {% for item in nav_items %}
+            <twig:NavigationMenu:Item>
+                <twig:NavigationMenu:Link
+                    href="{{ path(item.route) }}"
+                    :aria-current="current_route in item.active ? 'page' : null"
+                    class="aria-[current=page]:bg-muted"
+                >{{ item.label }}</twig:NavigationMenu:Link>
+            </twig:NavigationMenu:Item>
+        {% endfor %}
+    </twig:NavigationMenu:List>
+</twig:NavigationMenu>

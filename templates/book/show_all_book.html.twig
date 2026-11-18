@@ -13,35 +13,7 @@
     {% if books %}
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {% for book in books %}
-                <twig:Card>
-                    <twig:Card:Header>
-                        <twig:Card:Title class="line-clamp-2">{{ book.title }}</twig:Card:Title>
-                        <twig:Card:Description>{{ book.author }}</twig:Card:Description>
-                    </twig:Card:Header>
-
-                    <twig:Card:Content class="flex flex-1 flex-col gap-3">
-                        <p class="line-clamp-3 text-muted-foreground">{{ book.resume }}</p>
-
-                        {% if book.categories is not empty %}
-                            <div class="mt-auto flex flex-wrap gap-1.5">
-                                {% for category in book.categories %}
-                                    <twig:Badge as="a" href="{{ path('category_show', {id: category.id}) }}" variant="secondary">
-                                        {{ category.name }}
-                                    </twig:Badge>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </twig:Card:Content>
-
-                    <twig:Card:Footer class="justify-between gap-2">
-                        <span class="text-xs text-muted-foreground">
-                            {{ book.publishAt ? 'Publié en ' ~ book.publishAt|date('Y') }}
-                        </span>
-                        <twig:Button as="a" href="{{ path('app_book_show', {id: book.id}) }}" variant="outline" size="sm">
-                            Voir le détail
-                        </twig:Button>
-                    </twig:Card:Footer>
-                </twig:Card>
+                <twig:Card:CardInfoBook item="{{ book }}"></twig:Card:CardInfoBook>
             {% endfor %}
         </div>
     {% else %}
