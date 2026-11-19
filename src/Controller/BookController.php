@@ -32,4 +32,22 @@ final class BookController extends AbstractController
         ]);
     }
 
+    #[Route(path: 'books/search/{title}', name: 'app_book_search')]
+    public function showBookByTitle(string $title): Response
+    {
+        $books = $this->bookService->getBookByTitle($title);
+        return $this->render('book/show_by_title.html.twig', [
+            'books' => $books,
+        ]);
+    }
+
+    #[Route(path:'/books/search/date/{date}', name: 'app_book_search_by_date')]
+    public function showBookByDate(string $date): Response
+    {
+        $books = $this->bookService->getBookByDate($date);
+        return $this->render('book/show_by_date.html.twig', [
+            'books' => $books,
+        ]);
+    }
+
 }

@@ -16,6 +16,26 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
+    public function findByTitle(string $title): array
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.title LIKE :title')
+            ->setParameter('title', '%' . $title . '%')
+            ->orderBy('b.title', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findPublishedAfter(\DateTimeImmutable $date): array
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.publishAt <= :date')
+            ->setParameter('date', $date)
+            ->orderBy('b.publishAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return BookEntity[] Returns an array of BookEntity objects
 //     */

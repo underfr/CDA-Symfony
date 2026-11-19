@@ -23,4 +23,14 @@ class BookService
     {
         return $this->bookRepository->find($id) ?? null;
     }
+
+    public function getBookByTitle(string $title): array
+    {
+        return $this->bookRepository->findByTitle($title);
+    }
+
+    public function getBookByDate(string $date): array
+    {
+        return $this->bookRepository->findPublishedAfter(new \DateTimeImmutable($date));
+    }
 }
